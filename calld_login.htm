@@ -1,0 +1,162 @@
+<html>
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	<title>agent login</title>
+
+	<script type='text/javascript' id='agent' part='login' src='admin.js'>
+	</script>
+	<script>
+		function login_check() {
+
+			if (!window.top.msocket) {
+				main();
+				return;
+			}
+			var user_id = document.getElementById("user_id");
+			var user_pwd = document.getElementById("user_pwd");
+
+			if (!user_id || !user_pwd) {
+				alert("로그인화면이 아닙니다.");
+				return;
+			}
+
+			if (user_id.value == "") {
+				alert("아이디를 입력하세요");
+				user_id.focus();
+				return;
+			}
+			if (user_pwd.value == "") {
+				alert("비밀번호를 입력하세요");
+				user_pwd.focus();
+				return;
+			}
+
+			new wsLogin();
+		}
+
+		function login_start() {
+			window.top.gID = window.location.pathname;
+			var user_id = document.getElementById("user_id");
+			if (user_id)
+				user_id.focus();
+		}
+
+		function wsLogin() {
+
+			try {
+				if (!window.top.msocket) {
+					alert("웹소켓연결이 안되어 다시 로딩 합니다.")
+					window.top.reload(true);
+					return;
+				}
+
+				window.top.msocket.onmessage = function (msg) {
+					console.log(msg.data);
+					gObj = JSON.parse(msg.data);
+					if (gObj.errcode === 0) {
+						if (!gObj.menuname) {
+							alert("메뉴페이지 서버오류 관리자에게 문의바랍니다.");
+							return;
+						}
+
+						window.top.gMenuName = gObj.menuname;
+
+						var vLoc = window.top.frames['subFrame'];
+						//same as --> var vLoc = document.getElementsByTagName( "iframe" )[ 0 ].contentWindow);
+						//same as --> var vLoc = window.top.document.getElementById('subFrame');
+						if (vLoc) {
+							vLoc.src = window.top.gMenuName;
+						}
+						else {
+							window.top.msocket.close();
+						}
+
+					} else {
+						if (gObj.msg)
+							alert(gObj.msg);
+					}
+				}
+
+				function SendLogin() {
+					var segments = [];
+					segments.push('cmd=login');
+					segments.push('id=' + document.getElementById('user_id').value);
+					segments.push('pw=' + document.getElementById('user_pwd').value);
+					window.top.msocket.send(segments.join('&'));
+				}
+
+				SendLogin();
+
+			} catch (exception) {
+				console.log("login websocke exception: " + exception);
+			}
+		}
+	</script>
+	<link rel="stylesheet" href="admin.css" type="text/css">
+	<style>
+		div > .login {
+			display: inline-block;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			width: 200px;
+			height: 100px;
+			margin: auto;
+			background-color: #f3f3f3;
+		}
+	</style>
+</head>
+
+<body onLoad="javascript:main();">
+	<!--p>
+			<a onclick="javascript:window.top.msocket.close();">close</a>
+	</p-->
+	<table border="0" align="center">
+		<tbody>
+			<tr>
+				<td height="154" colspan="2">
+					<h1>&nbsp;</h1>
+					<h1 align="center">
+						사용자 로그인
+					</h1>
+				</td>
+			</tr>
+			<tr>
+				<td width="70%" height="70">
+					<table>
+						<tbody>
+							<tr>
+								<td style="width: 250px; height: 20px;">
+									<div align="right">
+										<strong>
+											User ID
+											<input id="user_id" onkeydown="if( event.keyCode==13) login_check();" type="text" style="border: #CCCCCC 1px solid; height:18px ; color:#3333333; width:115px">
+										</strong>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="width: 250px; height: 20px;">
+									<div align="right">
+										<strong>
+											Password
+											<input id="user_pwd" onkeydown="if( event.keyCode==13) login_check();" type="password" style="border: #CCCCCC 1px solid; height:18px ; color:#3333333; width:115px;">
+										</strong>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td>
+					<a href="javascript:login_check()">
+						<img src="login_btn.png" border="0" style="margin-top: 5px;  width: 60px; " />
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

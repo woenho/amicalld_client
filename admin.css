@@ -1,0 +1,160 @@
+
+html, body {
+	font-family: 'Gulim','Malgun gothic','Noto Sans KR';
+	font-size: 12px;
+	color: #000;
+}
+
+a {
+	text-decoration: none !important;
+	font-family: 'Gulim','Malgun gothic','Noto Sans KR DemiLight';
+	font-size: 12px;
+	color: #555;
+}
+
+/* menu 2개이상 화면에서 사용---------------------------------------*/
+
+#gnb {
+	position: absolute;
+	top: 75px;
+	left: 100px;
+	z-index: 9999;
+}
+
+	#gnb a {
+		font-family: 'Noto Sans KR','Noto Sans KR DemiLight';
+		font-weight: 500;
+	}
+
+	#gnb > ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+		#gnb > ul > li {
+			position: relative;
+			float: left;
+		}
+
+			#gnb > ul > li > a {
+				display: block;
+				height: 20px;
+				line-height: 20px;
+				padding: 15px 0;
+				text-align: center;
+				color: #fff;
+				font-size: 18px;
+				background: #555;
+			}
+
+
+			#gnb > ul > li:hover > a {
+				background: #222; /*메뉴위에 마우스갔을 때 메인메뉴 배경*/
+			}
+
+			#gnb > ul > li:hover > ul {
+				background: #f5f5f5; /*메뉴 위에 마우스 갔을 때 서브메뉴 배경색*/
+			}
+
+			#gnb > ul > li a:hover {
+				background: #000; /*메뉴명위에 마우스 갔을 때 메뉴명 배경색*/
+			}
+
+			#gnb > ul > li > ul > li a:hover {
+				background: #777; /*메뉴 위에 마우스 갔을 때 서브메뉴 배경색*/
+				color: #fff
+			}
+
+			#gnb > ul > li > ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				visibility: visible;
+				position: absolute;
+				top: 50px;
+				left: 0px;
+				height: 150px;
+				border: 1px solid #ddd;
+				background: #fff;
+				z-index: 91;
+			}
+
+				#gnb > ul > li > ul > li > a {
+					display: block;
+					height: 20px;
+					line-height: 20px;
+					padding: 10px 0;
+					text-align: center;
+					color: #333;
+					font-size: 15px;
+				}
+
+			#gnb > ul > li:nth-of-type(1) a {
+				width: 200px;
+			}
+
+			#gnb > ul > li:nth-of-type(2) a {
+				width: 200px;
+			}
+
+			#gnb > ul > li:nth-of-type(3) a {
+				width: 200px;
+			}
+
+#list_cond {
+	font-size: 16px;
+}
+
+/* list table */
+.fixed_table_container {
+	height: 300px;
+	/*width: 100%;
+    border: 0px solid #000;
+    position: relative;
+    overflow: scroll;
+    /*padding-top: 30px;*/
+}
+
+#lc_main {
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 100%;
+	width: 100%;
+	zoom: 0.9;
+}
+
+#tbmain {
+	border: 3px #404040 solid;
+	border-spacing: 0px;
+}
+
+	#tbmain > td {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+
+	#tbmain tr td {
+		border: 1px #404040 solid;
+	}
+
+#tbdetail > tbody > tr > td:nth-of-type(1) {
+	width: 100px;
+}
+
+.tb_itemheader {
+	background: #FFFF00;
+}
+
+.tb_selected {
+	background: #00FFFF;
+}
+
+.tb_none {
+	background: #FFFFFF;
+}
+
+.tb_inactive {
+	background: #60FF00;
+}
